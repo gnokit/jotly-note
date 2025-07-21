@@ -1,10 +1,21 @@
 
 import React, { useState } from 'react';
-import { Search, X } from 'lucide-react';
 
 interface SearchProps {
     onSearchChange: (query: string) => void;
 }
+
+const SearchIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+);
+
+const CloseIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+);
 
 const Search: React.FC<SearchProps> = ({ onSearchChange }) => {
     const [query, setQuery] = useState('');
@@ -23,7 +34,7 @@ const Search: React.FC<SearchProps> = ({ onSearchChange }) => {
     return (
         <div className="relative w-full max-w-lg">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+                <SearchIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
             </div>
             <input
                 type="text"
@@ -40,7 +51,7 @@ const Search: React.FC<SearchProps> = ({ onSearchChange }) => {
                         className="p-1 rounded-full text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white focus:outline-none focus:bg-gray-300 dark:focus:bg-gray-600"
                         aria-label="Clear search"
                     >
-                       <X className="h-4 w-4" />
+                       <CloseIcon className="h-4 w-4" />
                     </button>
                 </div>
             )}
