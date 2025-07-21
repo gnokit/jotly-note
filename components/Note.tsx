@@ -6,6 +6,7 @@ import { NoteType } from '../types';
 import IconButton from './IconButton';
 import LoadingSpinner from './LoadingSpinner';
 import { improveNote } from '../services/ollamaService';
+import { Sparkles, Trash2 } from 'lucide-react';
 
 interface NoteProps {
   note: NoteType;
@@ -13,18 +14,6 @@ interface NoteProps {
   onDelete: (id: string) => void;
 }
 
-const SparklesIcon: React.FC<{className: string}> = ({className}) => (
-    <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="currentColor">
-        <path d="M19 8a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8ZM8 7h8a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/>
-        <path d="m11.12 15.46-1.42-1.42L8.29 15.46 6.88 14.05l1.41-1.42L6.88 11.21l1.41 1.42 1.42-1.42 1.41 1.42L12.54 9.8l-1.42 1.41 1.42 1.42-1.42 1.42ZM18 6l-1-2-1 2-2 1 2 1 1 2 1-2 2-1-2-1Z"/>
-    </svg>
-);
-
-const TrashIcon: React.FC<{className: string}> = ({className}) => (
-    <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="currentColor">
-        <path d="M15 4V3a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v1H4v2h16V4h-5ZM4 8v11a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8H4Z"/>
-    </svg>
-);
 
 
 const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
@@ -167,10 +156,10 @@ const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
       {error && <p className="px-4 pb-2 text-sm text-red-500">{error}</p>}
       <div className={`p-2 flex items-center justify-end space-x-1 transition-opacity duration-200 ${isEditing ? 'opacity-100' : 'opacity-0 group-hover:opacity-100 focus-within:opacity-100'}`}>
         <IconButton onClick={handleImprove} label="Improve with AI" disabled={isImproving || !note.content}>
-          {isImproving ? <LoadingSpinner /> : <SparklesIcon className="h-5 w-5" />}
+          {isImproving ? <LoadingSpinner /> : <Sparkles className="h-5 w-5" />}
         </IconButton>
         <IconButton onClick={handleDelete} label="Delete note">
-          <TrashIcon className="h-5 w-5" />
+          <Trash2 className="h-5 w-5" />
         </IconButton>
       </div>
     </div>

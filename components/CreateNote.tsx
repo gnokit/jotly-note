@@ -4,17 +4,12 @@ import { NoteType } from '../types';
 import { improveNote } from '../services/ollamaService';
 import IconButton from './IconButton';
 import LoadingSpinner from './LoadingSpinner';
+import { Sparkles } from 'lucide-react';
 
 interface CreateNoteProps {
   onAddNote: (note: Omit<NoteType, 'id' | 'createdAt'>) => void;
 }
 
-const SparklesIcon: React.FC<{className: string}> = ({className}) => (
-    <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="currentColor">
-        <path d="M19 8a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8ZM8 7h8a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/>
-        <path d="m11.12 15.46-1.42-1.42L8.29 15.46 6.88 14.05l1.41-1.42L6.88 11.21l1.41 1.42 1.42-1.42 1.41 1.42L12.54 9.8l-1.42 1.41 1.42 1.42-1.42 1.42ZM18 6l-1-2-1 2-2 1 2 1 1 2 1-2 2-1-2-1Z"/>
-    </svg>
-);
 
 
 const CreateNote: React.FC<CreateNoteProps> = ({ onAddNote }) => {
@@ -128,7 +123,7 @@ const CreateNote: React.FC<CreateNoteProps> = ({ onAddNote }) => {
           {isExpanded && (
             <div className="flex justify-end items-center mt-2 space-x-2">
               <IconButton onClick={handleImprove} label="Improve with AI" disabled={isImproving || !content}>
-                {isImproving ? <LoadingSpinner /> : <SparklesIcon className="h-5 w-5" />}
+                {isImproving ? <LoadingSpinner /> : <Sparkles className="h-5 w-5" />}
               </IconButton>
               <button
                 type="submit"
