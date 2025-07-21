@@ -41,7 +41,7 @@ const Search: React.FC<SearchProps> = ({ onSearchChange }) => {
                         className="p-1 rounded-full text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white focus:outline-none focus:bg-gray-300 dark:focus:bg-gray-600"
                         aria-label="Clear search"
                     >
-                       <X className="h-4 w-4" />
+                       <X className="h-4 w-4 cursor-pointer" />
                     </button>
                 </div>
             )}

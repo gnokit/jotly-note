@@ -123,7 +123,7 @@ const CreateNote: React.FC<CreateNoteProps> = ({ onAddNote }) => {
           {isExpanded && (
             <div className="flex justify-end items-center mt-2 space-x-2">
               <IconButton onClick={handleImprove} label="Improve with AI" disabled={isImproving || !content}>
-                {isImproving ? <LoadingSpinner /> : <Sparkles className="h-5 w-5 text-yellow-500" />}
+                {isImproving ? <LoadingSpinner /> : <Sparkles className="h-5 w-5 text-yellow-500 cursor-pointer" />}
               </IconButton>
               <button
                 type="submit"
