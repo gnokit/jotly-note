@@ -125,13 +125,6 @@ const CreateNote: React.FC<CreateNoteProps> = ({ onAddNote }) => {
               <IconButton onClick={handleImprove} label="Improve with AI" disabled={isImproving || !content}>
                 {isImproving ? <LoadingSpinner /> : <Sparkles className="h-5 w-5 text-yellow-500 cursor-pointer" />}
               </IconButton>
-              <button
-                type="submit"
-                disabled={isImproving}
-                className="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 dark:focus:ring-offset-gray-800 transition-colors disabled:bg-gray-400"
-              >
-                Done
-              </button>
             </div>
           )}
         </div>
