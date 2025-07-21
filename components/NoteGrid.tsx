@@ -16,7 +16,7 @@ const NoteGrid: React.FC<NoteGridProps> = ({ notes, onUpdateNote, onDeleteNote, 
     if (searchQuery) {
       return (
         <div className="text-center py-20 px-4">
-          <Search className="mx-auto h-24 w-24 text-gray-300 dark:text-gray-600" strokeWidth={1} />
+          <Search className="mx-auto h-24 w-24 text-gray-300 dark:text-gray-600" />
           <p className="mt-4 text-xl text-gray-500 dark:text-gray-400">No results found</p>
           <p className="mt-1 text-sm text-gray-400 dark:text-gray-500">Try searching for something else.</p>
         </div>
@@ -25,7 +25,7 @@ const NoteGrid: React.FC<NoteGridProps> = ({ notes, onUpdateNote, onDeleteNote, 
 
     return (
       <div className="text-center py-20 px-4">
-        <FileText className="mx-auto h-24 w-24 text-gray-300 dark:text-gray-600" strokeWidth={1} />
+        <FileText className="mx-auto h-24 w-24 text-gray-300 dark:text-gray-600" />
         <p className="mt-4 text-xl text-gray-500 dark:text-gray-400">Notes you add appear here</p>
       </div>
     );
