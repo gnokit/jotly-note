@@ -17,7 +17,10 @@
     "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.16",
+    "@tailwindcss/vite": "^4.1.11",
     "@types/node": "^22.14.0",
+    "tailwindcss": "^4.1.11",
     "typescript": "~5.7.2",
     "vite": "^6.2.0"
   }
