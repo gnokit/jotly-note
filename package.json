@@ -9,9 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "lucide-react": "^0.525.0",
+    "ollama": "^0.5.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "ollama": "^0.5.0",
     "react-markdown": "^9.0.1",
     "remark-gfm": "^4.0.0"
   },
