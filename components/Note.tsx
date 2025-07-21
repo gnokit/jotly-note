@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm';
 import { NoteType } from '../types';
 import IconButton from './IconButton';
 import LoadingSpinner from './LoadingSpinner';
-import { improveNote } from '../services/geminiService';
+import { improveNote } from '../services/ollamaService';
 
 interface NoteProps {
   note: NoteType;

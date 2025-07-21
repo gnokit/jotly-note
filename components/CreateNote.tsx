@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { NoteType } from '../types';
-import { improveNote } from '../services/geminiService';
+import { improveNote } from '../services/ollamaService';
 import IconButton from './IconButton';
 import LoadingSpinner from './LoadingSpinner';
 
