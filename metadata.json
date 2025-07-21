@@ -1,0 +1,6 @@
+{
+  "name": "Jotly",
+  "description": "A note-taking application inspired by Google Keep, supercharged with Gemini AI features to help you summarize and brainstorm.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
