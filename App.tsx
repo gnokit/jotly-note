@@ -47,9 +47,9 @@ const App: React.FC = () => {
     : sortedNotes;
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans transition-colors duration-300">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans transition-colors duration-300 flex flex-col">
       <Header onSearchChange={handleSearchChange}/>
-      <main>
+      <main className="flex-1">
         <CreateNote onAddNote={handleAddNote} />
         <NoteGrid
           notes={filteredNotes}
@@ -58,8 +58,8 @@ const App: React.FC = () => {
           searchQuery={searchQuery}
         />
       </main>
-      <footer className="text-center py-6 text-sm text-gray-500 dark:text-gray-400">
-        <p>Built with React, Tailwind CSS, and Gemini API.</p>
+      <footer className="text-center py-6 text-sm text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 mt-auto">
+        <p>© 2025 Jotly - Your Local Note Taking App</p>
       </footer>
     </div>
   );
