@@ -50,6 +50,8 @@ export default defineConfig({
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Custom scrollbar styles (migrated from inline styles) */
 /* For Webkit-based browsers (Chrome, Safari, etc.) */
 ::-webkit-scrollbar {
@@ -125,13 +127,18 @@ export default defineConfig({
 - **v3**: PostCSS plugin configuration
 - **v4**: Native Vite plugin integration
 
+### Dark Mode Configuration
+- **v3**: Configured in `tailwind.config.js` with `darkMode: 'class'`
+- **v4**: Requires `@custom-variant dark (&:where(.dark, .dark *))` directive in CSS
+
 ## Compatibility Verification
 
 ### ✅ Working Features
-- **Dark Mode**: Theme switching works correctly with class-based approach
+- **Dark Mode**: Theme switching works correctly with class-based approach (requires `@custom-variant dark` directive)
 - **Typography**: Markdown content renders with `prose` and `prose-invert` classes
 - **Responsive Design**: All breakpoints and utilities function as expected
 - **Custom Scrollbars**: Migrated custom scrollbar styles work in both themes
+- **Theme Toggle**: Icons correctly show Sun for light mode and Moon for dark mode
 
 ### ✅ No Code Changes Required
 - All existing React components continue to work
@@ -177,7 +184,15 @@ bun run preview
 1. **No Configuration File**: Tailwind CSS v4 does not require `tailwind.config.js`
 2. **CSS-First Approach**: All configuration done via CSS directives
 3. **Plugin System**: Plugins loaded via `@plugin` directive in CSS
-4. **Backward Compatible**: All existing Tailwind classes continue to work
-5. **Performance**: Local build provides better performance than CDN
+4. **Class-based Dark Mode**: Requires `@custom-variant dark (&:where(.dark, .dark *))` directive
+5. **Backward Compatible**: All existing Tailwind classes continue to work
+6. **Performance**: Local build provides better performance than CDN
+
+## Post-Migration Fixes Applied
+
+### Theme Toggle Fix
+- **Issue**: Dark mode not working despite class toggle
+- **Solution**: Added `@custom-variant dark (&:where(.dark, .dark *))` to `index.css`
+- **Icon Fix**: Corrected theme icons to show Sun for light mode, Moon for dark mode
 
 This migration maintains 100% feature parity while upgrading to the latest Tailwind CSS v4 architecture.

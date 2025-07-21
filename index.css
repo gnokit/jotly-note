@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Custom scrollbar styles */
 /* For Webkit-based browsers (Chrome, Safari, etc.) */
 ::-webkit-scrollbar {
