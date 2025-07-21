@@ -56,23 +56,15 @@ ollama serve
 
 2.  **Install dependencies:**
     ```bash
-    npm install
+    bun install
     ```
 
 3.  **Run the application:**
     ```bash
-    npm run dev
+    bun run dev
     ```
     
-    Or serve the files using any simple web server:
-    ```bash
-    # If you don't have serve, install it globally
-    npm install -g serve
-
-    # Run the server
-    serve .
-    ```
-    The application will now be running on a local port (e.g., `http://localhost:3000`).
+    The application will now be running on a local port (e.g., `http://localhost:5173`).
 
 ## 💡 How to Use
 
