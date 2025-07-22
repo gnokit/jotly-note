@@ -20,6 +20,8 @@ const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isImproving, setIsImproving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [editTitle, setEditTitle] = useState('');
+  const [editContent, setEditContent] = useState('');
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   const titleInputRef = useRef<HTMLInputElement>(null);
@@ -38,7 +40,7 @@ const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
     if (isEditing) {
       resizeTextarea();
     }
-  }, [note.content, isEditing, resizeTextarea]);
+  }, [editContent, isEditing, resizeTextarea]);
   
   // Resize textarea on window resize
   useEffect(() => {
@@ -51,22 +53,31 @@ const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
   // Focus title input when editing starts
   useEffect(() => {
     if (isEditing) {
+      setEditTitle(note.title);
+      setEditContent(note.content);
       titleInputRef.current?.focus();
     }
-  }, [isEditing]);
+  }, [isEditing, note.title, note.content]);
 
-  // Handle click outside to exit editing mode
+  const handleSave = useCallback(() => {
+    if (editTitle !== note.title || editContent !== note.content) {
+      onUpdate(note.id, { title: editTitle, content: editContent });
+    }
+    setIsEditing(false);
+  }, [note.id, note.title, note.content, editTitle, editContent, onUpdate]);
+
+  // Handle click outside to save and exit editing mode
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
-        setIsEditing(false);
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node) && isEditing) {
+        handleSave();
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [isEditing, handleSave]);
 
   const handleImprove = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -88,11 +99,11 @@ const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onUpdate(note.id, { title: e.target.value });
+    setEditTitle(e.target.value);
   };
   
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    onUpdate(note.id, { content: e.target.value });
+    setEditContent(e.target.value);
   };
 
   const handleNoteClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -119,7 +130,7 @@ const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
             <input
               ref={titleInputRef}
               type="text"
-              value={note.title}
+              value={editTitle}
               onChange={handleTitleChange}
               placeholder="Title"
               className="w-full bg-transparent text-lg font-bold text-gray-900 dark:text-white focus:outline-none placeholder-gray-500 dark:placeholder-gray-400"
@@ -128,7 +139,7 @@ const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
           <div className="p-4 pt-0 flex-grow">
             <textarea
               ref={contentRef}
-              value={note.content}
+              value={editContent}
               onChange={handleContentChange}
               placeholder="Take a note..."
               className="w-full bg-transparent text-gray-700 dark:text-gray-300 focus:outline-none resize-none placeholder-gray-500 dark:placeholder-gray-400"
