@@ -154,13 +154,18 @@ const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
         </>
       )}
       {error && <p className="px-4 pb-2 text-sm text-red-500">{error}</p>}
-      <div className={`p-2 flex items-center justify-end space-x-1 transition-opacity duration-200 ${isEditing ? 'opacity-100' : 'opacity-0 group-hover:opacity-100 focus-within:opacity-100'}`}>
-        <IconButton onClick={handleImprove} label="Improve with AI" disabled={isImproving || !note.content}>
-          {isImproving ? <LoadingSpinner /> : <Sparkles className="h-5 w-5 text-yellow-500 cursor-pointer" />}
-        </IconButton>
-        <IconButton onClick={handleDelete} label="Delete note">
-          <Trash2 className="h-5 w-5 text-red-500 hover:text-red-600 cursor-pointer" />
-        </IconButton>
+      <div className="px-4 pb-2 flex items-center justify-between">
+        <span className="text-xs text-gray-400 dark:text-gray-500">
+          {new Date(note.createdAt).toLocaleDateString()} {new Date(note.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        </span>
+        <div className={`flex items-center space-x-1 transition-opacity duration-200 ${isEditing ? 'opacity-100' : 'opacity-0 group-hover:opacity-100 focus-within:opacity-100'}`}>
+          <IconButton onClick={handleImprove} label="Improve with AI" disabled={isImproving || !note.content}>
+            {isImproving ? <LoadingSpinner /> : <Sparkles className="h-5 w-5 text-yellow-500 cursor-pointer" />}
+          </IconButton>
+          <IconButton onClick={handleDelete} label="Delete note">
+            <Trash2 className="h-5 w-5 text-red-500 hover:text-red-600 cursor-pointer" />
+          </IconButton>
+        </div>
       </div>
     </div>
   );
