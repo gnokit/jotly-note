@@ -97,12 +97,42 @@ export const checkOllamaHealth = async (): Promise<boolean> => {
   }
 };
 
-// Utility function to check if specific model is available
-export const checkModelAvailability = async (modelName: string): Promise<boolean> => {
+export const embedText = async (text: string): Promise<number[]> => {
+  if (!text || text.trim() === '') {
+    throw new Error("Cannot embed empty text.");
+  }
+
   try {
-    const models = await ollamaClient.list();
-    return models.models?.some(model => model.name === modelName) ?? false;
-  } catch {
-    return false;
+    // Check if Ollama service is available
+    try {
+      await ollamaClient.list();
+    } catch (error) {
+      throw new Error("Cannot connect to Ollama service. Please ensure Ollama is running on http://127.0.0.1:11434");
+    }
+
+    const response = await ollamaClient.embed({
+      model: "snowflake-arctic-embed2:latest",
+      input: text,
+      truncate: true
+    });
+
+    if (!response.embeddings || response.embeddings.length === 0) {
+      throw new Error("Received empty embeddings from Ollama");
+    }
+
+    // Return the first embedding since we're only processing one text input
+    return response.embeddings[0];
+
+  } catch (error) {
+    console.error("Error generating embedding with Ollama:", error);
+    
+    if (error instanceof Error) {
+      if (error.message.includes("model not found")) {
+        throw new Error("Model 'snowflake-arctic-embed2:latest' not found. Please run: ollama pull snowflake-arctic-embed2:latest");
+      }
+      throw error;
+    }
+    
+    throw new Error("Failed to generate embedding. Please check that Ollama is running and the model is available.");
   }
 };
