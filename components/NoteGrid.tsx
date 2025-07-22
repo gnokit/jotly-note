@@ -9,9 +9,19 @@ interface NoteGridProps {
   onUpdateNote: (id: string, data: Partial<Omit<NoteType, 'id'>>) => void;
   onDeleteNote: (id: string) => void;
   searchQuery: string;
+  isSearching?: boolean;
 }
 
-const NoteGrid: React.FC<NoteGridProps> = ({ notes, onUpdateNote, onDeleteNote, searchQuery }) => {
+const NoteGrid: React.FC<NoteGridProps> = ({ notes, onUpdateNote, onDeleteNote, searchQuery, isSearching }) => {
+  if (isSearching) {
+    return (
+      <div className="text-center py-20 px-4">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-500 mx-auto"></div>
+        <p className="mt-4 text-xl text-gray-500 dark:text-gray-400">Searching notes...</p>
+      </div>
+    );
+  }
+
   if (notes.length === 0) {
     if (searchQuery) {
       return (

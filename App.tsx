@@ -1,5 +1,5 @@
 
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { NoteType } from './types';
 import Header from './components/Header';
 import CreateNote from './components/CreateNote';
@@ -10,6 +10,9 @@ import { vectorService } from './services/vectorService';
 const App: React.FC = () => {
   const [notes, setNotes] = useState<NoteType[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<NoteType[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     loadNotes();
@@ -91,16 +94,47 @@ const App: React.FC = () => {
 
   const handleSearchChange = useCallback((query: string) => {
     setSearchQuery(query);
+    
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+
+    if (!query.trim()) {
+      setSearchResults([]);
+      setIsSearching(false);
+      return;
+    }
+
+    setIsSearching(true);
+    searchTimeoutRef.current = setTimeout(async () => {
+      try {
+        const results = await vectorService.semanticSearch(query);
+        setSearchResults(results);
+      } catch (error) {
+        console.error('Semantic search failed:', error);
+        // Fallback to text search if semantic search fails
+        const fallbackResults = notes.filter(note =>
+          note.title.toLowerCase().includes(query.toLowerCase()) ||
+          note.content.toLowerCase().includes(query.toLowerCase())
+        );
+        setSearchResults(fallbackResults);
+      } finally {
+        setIsSearching(false);
+      }
+    }, 300);
+  }, [notes]);
+
+  useEffect(() => {
+    return () => {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
   }, []);
 
   const sortedNotes = [...notes].sort((a, b) => b.createdAt - a.createdAt);
 
-  const filteredNotes = searchQuery
-    ? sortedNotes.filter(note =>
-        note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        note.content.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : sortedNotes;
+  const displayedNotes = searchQuery ? searchResults : sortedNotes;
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans transition-colors duration-300 flex flex-col">
@@ -108,10 +142,11 @@ const App: React.FC = () => {
       <main className="flex-1">
         <CreateNote onAddNote={handleAddNote} />
         <NoteGrid
-          notes={filteredNotes}
+          notes={displayedNotes}
           onUpdateNote={handleUpdateNote}
           onDeleteNote={handleDeleteNote}
           searchQuery={searchQuery}
+          isSearching={isSearching}
         />
       </main>
       <footer className="text-center py-6 text-sm text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 mt-auto">
