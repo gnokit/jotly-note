@@ -57,7 +57,21 @@ ollama serve
 docker run -p 6333:6333 qdrant/qdrant
 ```
 
-### 4. Clone and Run the Application
+### 4. Configure Environment
+
+Copy the example environment file and configure for your setup:
+
+```bash
+# For development (localhost)
+cp .env.example .env
+
+# For production (edit with your actual host)
+cp .env.example .env.production
+```
+
+For detailed environment configuration, see [ENV_SETUP.md](./ENV_SETUP.md).
+
+### 5. Clone and Run the Application
 
 1.  **Clone the repository:**
     ```bash

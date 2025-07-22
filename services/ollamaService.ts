@@ -7,7 +7,7 @@ export interface ImprovedNote {
 
 // Create Ollama client instance
 const ollamaClient = new Ollama({
-  host: 'http://127.0.0.1:11434'
+  host: import.meta.env.VITE_OLLAMA_URL || 'http://127.0.0.1:11434'
 });
 
 export const improveNote = async (title: string, content: string): Promise<ImprovedNote> => {
@@ -20,7 +20,7 @@ export const improveNote = async (title: string, content: string): Promise<Impro
     try {
       await ollamaClient.list();
     } catch (error) {
-      throw new Error("Cannot connect to Ollama service. Please ensure Ollama is running on http://127.0.0.1:11434");
+      throw new Error(`Cannot connect to Ollama service. Please ensure Ollama is running on ${import.meta.env.VITE_OLLAMA_URL || 'http://127.0.0.1:11434'}`);
     }
 
     const response = await ollamaClient.chat({
@@ -107,7 +107,7 @@ export const embedText = async (text: string): Promise<number[]> => {
     try {
       await ollamaClient.list();
     } catch (error) {
-      throw new Error("Cannot connect to Ollama service. Please ensure Ollama is running on http://127.0.0.1:11434");
+      throw new Error(`Cannot connect to Ollama service. Please ensure Ollama is running on ${import.meta.env.VITE_OLLAMA_URL || 'http://127.0.0.1:11434'}`);
     }
 
     const response = await ollamaClient.embed({
