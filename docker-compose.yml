@@ -1,0 +1,15 @@
+services:
+  # Jotly application only
+  jotly:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jotly-app
+    ports:
+      - "8099:8099"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8099"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

@@ -91,6 +91,36 @@ For detailed environment configuration, see [ENV_SETUP.md](./ENV_SETUP.md).
     
     The application will now be running on a local port (e.g., `http://localhost:5173`).
 
+### 🐳 Docker Production Deployment
+
+For production deployment using Docker:
+
+1.  **Build and run with Docker Compose:**
+    ```bash
+    docker-compose -p jotly up -d
+    ```
+
+2.  **Access the application:**
+    - Jotly app: http://localhost:8099
+    - Qdrant (if running locally): http://localhost:6333
+    - Ollama (if running locally): http://localhost:11434
+
+3.  **Stop services:**
+    ```bash
+    docker-compose -p jotly down
+    ```
+
+4.  **View logs:**
+    ```bash
+    docker-compose -p jotly logs -f
+    ```
+
+**Docker Setup Notes:**
+- The app runs on port 8099 (configurable via docker-compose.yml)
+- Uses nginx as reverse proxy for optimal performance
+- Requires Ollama and Qdrant to be running separately (not in Docker)
+- All configuration is handled via environment variables
+
 ## 💡 How to Use
 
 - **Create a Note**: Click on the ""Take a note..." area, type a title and content, and click "Done" or click outside the box to save.
