@@ -3,6 +3,8 @@
 
 Jotly is a modern, intuitive, and intelligent note-taking application inspired by the simplicity of Google Keep and supercharged with the power of local AI. It provides a clean, fast, and responsive interface to capture, manage, and enhance your thoughts and ideas using local LLM models with semantic search capabilities.
 
+<img width="762" height="1020" alt="Screenshot 2025-07-22 at 5 26 23 PM" src="https://github.com/user-attachments/assets/ab29a802-5ec5-4355-9cbc-bf02fb2064a7" />
+
 ## ✨ Key Features
 
 - **AI-Powered Note Enhancement**: Automatically generate concise titles and reformat your raw notes into well-structured, readable Markdown with a single click, powered by local LLM models.
