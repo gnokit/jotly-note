@@ -39,7 +39,8 @@ ${content}
 Instructions:
 1. Based on the content, generate a concise and relevant title. If the provided title is good, you can use it or slightly improve it. If it's empty, you MUST generate one.
 2. Rewrite the original content using rich Markdown formatting to improve its structure and readability. Use elements like headings (h2, h3), bold text, italics, and lists where appropriate. Do not use a level-1 heading in the content, as the title will serve that purpose.
-
+3. **IMPORTANT**: Preserve the original language of the content. If the note is written in Traditional Chinese, the enhanced content must remain in Traditional Chinese. If it's in English, keep it in English, and so on for any language.
+            language.
 Return a JSON object with exactly this structure:
 {
   "title": "concise title here",
