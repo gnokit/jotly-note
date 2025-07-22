@@ -179,6 +179,17 @@ bun run build
 bun run preview
 ```
 
+## Post-Migration Troubleshooting
+
+If the build hangs or fails after migration:
+
+```bash
+# Clear corrupted node_modules and reinstall
+rm -rf node_modules bun.lockb
+bun install
+bun run build
+```
+
 ## Migration Notes
 
 1. **No Configuration File**: Tailwind CSS v4 does not require `tailwind.config.js`
