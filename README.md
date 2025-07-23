@@ -98,6 +98,7 @@ For production deployment using Docker:
 1.  **Build and run with Docker Compose:**
     ```bash
     docker-compose build --no-cache
+    docker-compose up -d
     ```
 
 2.  **Access the application:**
