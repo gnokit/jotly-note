@@ -1,4 +1,5 @@
 import { Ollama } from 'ollama/browser';
+import { getNoteImprovementPrompt } from './prompts';
 
 export interface ImprovedNote {
   title: string;
@@ -28,32 +29,11 @@ export const improveNote = async (title: string, content: string): Promise<Impro
       messages: [
         {
           role: "user",
-          content: `Analyze the following note and provide a JSON response.
-
-Current Title: "${title}"
-Current Content:
----
-${content}
----
-
-Instructions:
-1. Based on the content, generate a concise and relevant title. If the provided title is good, you can use it or slightly improve it. If it's empty, you MUST generate one.
-2. Rewrite the original content using rich Markdown formatting to improve its structure and readability. Use elements like headings (h2, h3), bold text, italics, and lists where appropriate. Do not use a level-1 heading in the content, as the title will serve that purpose.
-3. **IMPORTANT**: Preserve the original language of the content. If the note is written in Traditional Chinese, the enhanced content must remain in Traditional Chinese. If it's in English, keep it in English, and so on for any language.
-            language.
-Return a JSON object with exactly this structure:
-{
-  "title": "concise title here",
-  "content": "formatted markdown content here"
-}`
+          content: getNoteImprovementPrompt(title, content)
         }
       ],
       format: "json",
       stream: false,
-      options: {
-        temperature: 0.7,
-        top_p: 0.9
-      }
     });
 
     if (!response.message?.content) {
