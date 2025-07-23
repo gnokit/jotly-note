@@ -6,7 +6,7 @@ import { NoteType } from '../types';
 import IconButton from './IconButton';
 import LoadingSpinner from './LoadingSpinner';
 import { improveNote } from '../services/ollamaService';
-import { Sparkles, Trash2 } from 'lucide-react';
+import { Sparkles, Trash2, Maximize2, Minimize2 } from 'lucide-react';
 
 interface NoteProps {
   note: NoteType;
@@ -19,6 +19,7 @@ interface NoteProps {
 const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isImproving, setIsImproving] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState('');
   const [editContent, setEditContent] = useState('');
@@ -98,6 +99,11 @@ const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
     onDelete(note.id);
   };
 
+  const handleFullscreen = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setIsFullscreen(!isFullscreen);
+  };
+
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEditTitle(e.target.value);
   };
@@ -122,7 +128,11 @@ const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
     <div
       ref={wrapperRef}
       onClick={handleNoteClick}
-      className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col ${isEditing ? 'ring-2 ring-yellow-500' : 'cursor-pointer'}`}
+      className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col ${
+        isFullscreen 
+          ? 'fixed inset-0 z-50 rounded-none' 
+          : `${isEditing ? 'ring-2 ring-yellow-500' : 'cursor-pointer'}`
+      }`}
     >
       {isEditing ? (
         <>
@@ -136,7 +146,7 @@ const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
               className="w-full bg-transparent text-lg font-bold text-gray-900 dark:text-white focus:outline-none placeholder-gray-500 dark:placeholder-gray-400"
             />
           </div>
-          <div className="p-4 pt-0 flex-grow">
+          <div className="p-4 pt-0 flex-grow overflow-y-auto">
             <textarea
               ref={contentRef}
               value={editContent}
@@ -150,7 +160,7 @@ const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
       ) : (
         <>
           {(note.title || note.content) && (
-             <div className="p-4 flex-grow min-h-[4rem]">
+             <div className="p-4 flex-grow min-h-[4rem] overflow-y-auto">
                <article className="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 break-words">
                  <ReactMarkdown
                    remarkPlugins={[remarkGfm]}
@@ -169,9 +179,15 @@ const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
         <span className="text-xs text-gray-400 dark:text-gray-500">
           {new Date(note.createdAt).toLocaleDateString()} {new Date(note.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </span>
-        <div className={`flex items-center space-x-1 transition-opacity duration-200 ${isEditing ? 'opacity-100' : 'opacity-0 group-hover:opacity-100 focus-within:opacity-100'}`}>
+        <div className="flex items-center space-x-1 transition-opacity duration-200 opacity-100">
           <IconButton onClick={handleImprove} label="Improve with AI" disabled={isImproving || !note.content}>
             {isImproving ? <LoadingSpinner /> : <Sparkles className="h-5 w-5 text-yellow-500 cursor-pointer" />}
+          </IconButton>
+          <IconButton onClick={handleFullscreen} label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}>
+            {isFullscreen ? 
+              <Minimize2 className="h-5 w-5 text-gray-500 hover:text-gray-600 cursor-pointer" /> : 
+              <Maximize2 className="h-5 w-5 text-gray-500 hover:text-gray-600 cursor-pointer" />
+            }
           </IconButton>
           <IconButton onClick={handleDelete} label="Delete note">
             <Trash2 className="h-5 w-5 text-red-500 hover:text-red-600 cursor-pointer" />
