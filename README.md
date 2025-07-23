@@ -1,13 +1,13 @@
 
-# Jotly - Your AI-Powered Note-Taking Companion
+# Jotly - AI-Powered Markdown Note-Taking for LLM Content
 
-Jotly is a modern, intuitive, and intelligent note-taking application inspired by the simplicity of Google Keep and supercharged with the power of local AI. It provides a clean, fast, and responsive interface to capture, manage, and enhance your thoughts and ideas using local LLM models with semantic search capabilities.
+Jotly is a modern markdown-first note-taking application designed specifically for capturing and organizing AI-generated content. Built with React and powered by local LLMs, Jotly provides the perfect environment to directly record, edit, and manage markdown content from today's AI assistants. Whether you're saving ChatGPT responses, Claude outputs, or any other AI-generated markdown, Jotly handles it seamlessly with full markdown rendering and AI-powered enhancement.
 
 <img width="762" height="1020" alt="Screenshot 2025-07-22 at 5 26 23 PM" src="https://github.com/user-attachments/assets/ab29a802-5ec5-4355-9cbc-bf02fb2064a7" />
 
 ## ✨ Key Features
 
-- **AI-Powered Note Enhancement**: Automatically generate concise titles and reformat your raw notes into well-structured, readable Markdown with a single click, powered by local LLM models.
+- **AI-Powered Markdown Enhancement**: Automatically format and enhance your markdown content with AI-generated titles and improved structure. Perfect for organizing raw AI outputs into clean, readable markdown.
 - **Semantic Search**: Find notes by meaning, not just keywords. Powered by vector embeddings and Qdrant vector database.
 - **Full CRUD Functionality**: Seamlessly create, read, update, and delete notes.
 - **Rich Markdown Support**: Write and view notes with rich formatting, including headings, lists, bold/italic text, links, and more.
@@ -97,7 +97,7 @@ For production deployment using Docker:
 
 1.  **Build and run with Docker Compose:**
     ```bash
-    docker-compose -p jotly up -d
+    docker-compose build --no-cache
     ```
 
 2.  **Access the application:**
@@ -107,12 +107,12 @@ For production deployment using Docker:
 
 3.  **Stop services:**
     ```bash
-    docker-compose -p jotly down
+    docker-compose down
     ```
 
 4.  **View logs:**
     ```bash
-    docker-compose -p jotly logs -f
+    docker-compose logs -f
     ```
 
 **Docker Setup Notes:**
@@ -123,8 +123,10 @@ For production deployment using Docker:
 
 ## 💡 How to Use
 
-- **Create a Note**: Click on the ""Take a note..." area, type a title and content, and click "Done" or click outside the box to save.
-- **Edit a Note**: Simply click on any existing note to enter editing mode.
-- **Delete a Note**: Hover over a note and click the trash can icon.
-- **Search Notes**: Use the search bar in the header to find notes by meaning - semantic search understands the context of your query.
-- **Improve with AI**: Click the sparkles icon (✨) on any note to have your local AI model automatically improve its title and formatting.
+- **Record Markdown Content**: Paste AI-generated markdown directly into notes - Jotly renders it beautifully with full formatting support.
+- **Create a Note**: Click on the "Take a note..." area, type or paste markdown content, and click outside to save.
+- **Edit Markdown**: Click any note to edit the raw markdown or use AI enhancement for automatic formatting.
+- **AI Enhancement**: Click the sparkles icon (✨) to have your local AI automatically improve markdown structure, add titles, and enhance readability.
+- **Search Markdown**: Use semantic search to find notes by content meaning, even within markdown formatting.
+- **Full Screen Mode**: Click the maximize icon to view markdown content in distraction-free fullscreen.
+- **Delete a Note**: Click the trash icon to remove unwanted notes.
