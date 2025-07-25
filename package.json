@@ -10,11 +10,14 @@
   },
   "dependencies": {
     "@qdrant/js-client-rest": "^1.15.0",
+    "@types/dompurify": "^3.2.0",
+    "dompurify": "^3.2.6",
     "lucide-react": "^0.525.0",
     "ollama": "^0.5.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-markdown": "^9.0.1",
+    "rehype-sanitize": "^6.0.0",
     "remark-gfm": "^4.0.0"
   },
   "devDependencies": {

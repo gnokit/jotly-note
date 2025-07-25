@@ -5,6 +5,7 @@ import { improveNote } from '../services/ollamaService';
 import IconButton from './IconButton';
 import LoadingSpinner from './LoadingSpinner';
 import { Sparkles } from 'lucide-react';
+import { sanitizeText, sanitizeError } from '../utils/security';
 
 interface CreateNoteProps {
   onAddNote: (note: Omit<NoteType, 'id' | 'createdAt'>) => void;
@@ -49,7 +50,10 @@ const CreateNote: React.FC<CreateNoteProps> = ({ onAddNote }) => {
   const handleClickOutside = (event: MouseEvent) => {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
       if (title || content) {
-        onAddNote({ title, content });
+        onAddNote({ 
+          title: sanitizeText(title), 
+          content: sanitizeText(content, 10000) 
+        });
       }
       resetState();
     }
@@ -66,7 +70,10 @@ const CreateNote: React.FC<CreateNoteProps> = ({ onAddNote }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (title || content) {
-      onAddNote({ title, content });
+      onAddNote({ 
+        title: sanitizeText(title), 
+        content: sanitizeText(content, 10000) 
+      });
       resetState();
     }
   };
@@ -82,7 +89,7 @@ const CreateNote: React.FC<CreateNoteProps> = ({ onAddNote }) => {
       setTitle(improved.title);
       setContent(improved.content);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+      setError(sanitizeError(err instanceof Error ? err : new Error('An unknown error occurred.')));
     } finally {
       setIsImproving(false);
     }
@@ -104,7 +111,7 @@ const CreateNote: React.FC<CreateNoteProps> = ({ onAddNote }) => {
               type="text"
               placeholder="Title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => setTitle(sanitizeText(e.target.value))}
               className="w-full bg-transparent text-lg font-semibold text-gray-900 dark:text-white focus:outline-none mb-3 placeholder-gray-500 dark:placeholder-gray-400"
               disabled={isImproving}
             />
@@ -113,7 +120,7 @@ const CreateNote: React.FC<CreateNoteProps> = ({ onAddNote }) => {
             ref={contentRef}
             placeholder="Take a note..."
             value={content}
-            onChange={handleContentChange}
+            onChange={(e) => setContent(sanitizeText(e.target.value, 10000))}
             onFocus={handleFocus}
             className="w-full bg-transparent text-gray-700 dark:text-gray-300 focus:outline-none resize-none placeholder-gray-500 dark:placeholder-gray-400"
             rows={1}

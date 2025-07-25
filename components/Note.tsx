@@ -2,11 +2,13 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import rehypeSanitize from 'rehype-sanitize';
 import { NoteType } from '../types';
 import IconButton from './IconButton';
 import LoadingSpinner from './LoadingSpinner';
 import { improveNote } from '../services/ollamaService';
 import { Sparkles, Trash2, Maximize2, Minimize2 } from 'lucide-react';
+import { sanitizeText, sanitizeError } from '../utils/security';
 
 interface NoteProps {
   note: NoteType;
@@ -62,7 +64,10 @@ const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
 
   const handleSave = useCallback(() => {
     if (editTitle !== note.title || editContent !== note.content) {
-      onUpdate(note.id, { title: editTitle, content: editContent });
+      onUpdate(note.id, { 
+        title: sanitizeText(editTitle), 
+        content: sanitizeText(editContent, 10000) 
+      });
     }
     setIsEditing(false);
   }, [note.id, note.title, note.content, editTitle, editContent, onUpdate]);
@@ -86,9 +91,12 @@ const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
     setError(null);
     try {
       const improvedData = await improveNote(note.title, note.content);
-      onUpdate(note.id, { title: improvedData.title, content: improvedData.content });
+      onUpdate(note.id, { 
+        title: sanitizeText(improvedData.title), 
+        content: sanitizeText(improvedData.content, 10000) 
+      });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+      setError(sanitizeError(err instanceof Error ? err : new Error('An unknown error occurred.')));
     } finally {
       setIsImproving(false);
     }
@@ -164,6 +172,7 @@ const Note: React.FC<NoteProps> = ({ note, onUpdate, onDelete }) => {
                <article className="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 break-words">
                  <ReactMarkdown
                    remarkPlugins={[remarkGfm]}
+                   rehypePlugins={[rehypeSanitize]}
                    components={{
                      a: ({node, ...props}) => <a {...props} target="_blank" rel="noopener noreferrer" className="text-yellow-500 hover:text-yellow-600" />,
                      p: ({node, ...props}) => <p {...props} className="my-2" />,

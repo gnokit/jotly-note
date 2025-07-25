@@ -6,6 +6,7 @@ import CreateNote from './components/CreateNote';
 import NoteGrid from './components/NoteGrid';
 import { qdrantService } from './services/qdrantService';
 import { vectorService } from './services/vectorService';
+import { validateEnvVars } from './utils/security';
 
 const App: React.FC = () => {
   const [notes, setNotes] = useState<NoteType[]>([]);
@@ -15,6 +16,11 @@ const App: React.FC = () => {
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    // Validate environment variables on app start
+    const envValidation = validateEnvVars();
+    if (!envValidation.valid) {
+      console.warn('Missing environment variables:', envValidation.missing);
+    }
     loadNotes();
   }, []);
 
@@ -54,6 +60,7 @@ const App: React.FC = () => {
       setNotes(prevNotes => [newNoteWithId, ...prevNotes]);
     } catch (error) {
       console.error('Failed to add note to Qdrant:', error);
+      alert('Failed to add note. Please check your connection and try again.');
     }
   }, []);
 
@@ -80,6 +87,7 @@ const App: React.FC = () => {
       );
     } catch (error) {
       console.error('Failed to update note in Qdrant:', error);
+      alert('Failed to update note. Please check your connection and try again.');
     }
   }, [notes]);
   
@@ -89,6 +97,7 @@ const App: React.FC = () => {
       setNotes(prevNotes => prevNotes.filter(note => note.id !== id));
     } catch (error) {
       console.error('Failed to delete note from Qdrant:', error);
+      alert('Failed to delete note. Please check your connection and try again.');
     }
   }, []);
 

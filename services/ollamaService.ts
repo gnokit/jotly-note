@@ -21,7 +21,7 @@ export const improveNote = async (title: string, content: string): Promise<Impro
     try {
       await ollamaClient.list();
     } catch (error) {
-      throw new Error(`Cannot connect to Ollama service. Please ensure Ollama is running on ${import.meta.env.VITE_OLLAMA_URL || 'http://127.0.0.1:11434'}`);
+      throw new Error(`Cannot connect to Ollama service. Please ensure Ollama is running.`);
     }
 
     const response = await ollamaClient.chat({
